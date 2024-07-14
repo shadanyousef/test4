@@ -1,0 +1,139 @@
+{% load static %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="title" content="project">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="English">
+    <meta name="author" content="vinayak sharma">
+	<style>
+		.button-style {
+		  display: inline-block;
+		  padding: 15px 25px;
+		  font-size: 24px;
+		  cursor: pointer;
+		  text-align: center;
+		  text-decoration: none;
+		  outline: none;
+		  color: #0b0b0b;
+		  background-color: #d4d4d4;
+		  border: none;
+		  border-radius: 15px;
+		  box-shadow: 0 9px #999;
+		}
+		
+		.button-style:hover {
+		  background-color: #d4d4d4;
+		}
+		
+		.button-style:active {
+		  background-color: #cdcfcd;
+		  box-shadow: 0 5px #4a4a4a;
+		  transform: translateY(4px);
+		}
+
+        .image-container {
+            position: absolute;
+            top: 0px; 
+            left: 0px; 
+        }
+
+        .image-container img {
+            width: 170px;
+        }
+        .container{
+            position: fixed;
+            width:150px;
+            bottom: 85%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+    
+		</style>
+
+    <title>{{ title }}</title>
+
+    <!-- Bootstrap CSS -->
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <!-- Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static "index.css" %}" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Messages -->
+     
+        <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <script>
+                    document.write('<div class="alert alert-success">'+ '{{ message }}' +'</div>');
+                </script>
+            {% endfor %}
+        {% endif %}
+    </div>
+  
+    </head>
+
+<body class="container-fluid">
+    <header class="row">
+        <!-- Navbar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button class="navbar-toggle" data-toggle="collapse" data-target="#mainNavBar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand styleheader" href="{% url 'index' %}">
+                        <div class="image-container">
+                            <img src="{% static 'images.png' %}" alt="ncm logo" >
+                        </div>
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="mainNavBar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{% url "index" %}">Home</a></li>
+
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url "logout" %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                        {% else %}
+                            <li><a href="{% url "register" %}"><span class="glyphicon glyphicon-user"></span> Sign up</a></li>
+                            <li><a href="{% url "login" %}"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <br>
+    <br>
+    <br>
+    <div class="row">
+        {% block start %}
+		{% if user.is_authenticated %}
+		<center><h1 style="font-family: Garamond, serif;">Welcome back {{ user.username }}!</h1></center>
+	{% else %}
+		<center><h1 style="font-family: Garamond, serif;">Welcome<br>Sign In</h1></center>
+	{% endif %}
+        {% endblock %}
+    </div>
+   
+</body>
+</html>
